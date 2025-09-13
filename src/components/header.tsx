@@ -1,37 +1,51 @@
 'use client';
 
 import Link from 'next/link';
-import { Menu } from 'lucide-react';
+import { Menu, Radio } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
-export default function Header() {
+export default function Header({ isLive = false, kickUrl }: { isLive?: boolean; kickUrl?: string }) {
   const nav = [
-    { name: 'Products', href: '#products' },
-    { name: 'Projects', href: '#projects' },
+    { name: 'Productos', href: '#products' },
+    { name: 'Proyectos', href: '#projects' },
     { name: 'Stream', href: '#stream' },
-    { name: 'About', href: '#about' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Sobre mí', href: '#about' },
+    { name: 'Contacto', href: '#contact' },
   ];
 
   return (
     <header className="sticky top-0 z-50 w-full">
-      {/* barra de acento arriba */}
       <div className="h-[2px] w-full bg-gradient-to-r from-primary via-primary/70 to-transparent" />
 
-      {/* fondo full-bleed con contraste */}
       <div className="w-full bg-gradient-to-b from-black/90 to-black/70 backdrop-blur-xl border-b border-white/10">
-        {/* wrapper sin container: padding responsivo, sin límites */}
         <div className="mx-0 flex h-16 items-center justify-between px-4 sm:px-6 lg:px-10">
-          {/* brand pegado a la izquierda */}
           <Link
             href="/"
-            className="font-headline text-[15px] sm:text-base uppercase tracking-[0.22em] font-extrabold text-white hover:text-primary transition-colors"
+            className="flex items-center gap-3 font-headline text-[15px] sm:text-base uppercase tracking-[0.22em] font-extrabold text-white hover:text-primary transition-colors"
+            aria-label="Ir al inicio"
           >
-            MATHIUS MOYANO
+            <span>MATHIUS MOYANO</span>
+
+            {isLive && (
+              <Link
+                href={kickUrl || '#stream'}
+                className={cn(
+                  'group relative flex items-center gap-1 rounded-full border border-white/20 px-2 py-0.5 text-[10px] sm:text-xs font-bold uppercase tracking-wide',
+                  'bg-gradient-to-r from-primary/20 to-primary/10 text-white hover:from-primary/30 hover:to-primary/20 transition-colors'
+                )}
+                aria-label="Ver transmisión en vivo"
+              >
+                <span className="relative inline-flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+                </span>
+                EN VIVO
+              </Link>
+            )}
           </Link>
 
-          {/* desktop nav pegado a la derecha */}
           <nav className="hidden md:flex items-center gap-6">
             {nav.map((i) => (
               <Link
@@ -44,20 +58,38 @@ export default function Header() {
               </Link>
             ))}
             <Button asChild className="ml-2 uppercase tracking-wider font-bold">
-              <Link href="#contact">Hire Me</Link>
+              <Link href="#contact">Impulsa tu idea</Link>
             </Button>
           </nav>
 
-          {/* mobile */}
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="outline" size="icon" className="h-10 w-10" aria-label="Open menu">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-10 w-10"
+                  aria-label="Abrir menú de navegación"
+                >
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="bg-black/90 backdrop-blur-xl border-l border-white/10">
+              <SheetContent
+                side="right"
+                className="bg-black/90 backdrop-blur-xl border-l border-white/10"
+                aria-label="Menú lateral"
+              >
                 <div className="mt-10 flex flex-col gap-6">
+                  {isLive && (
+                    <Link
+                      href={kickUrl || '#stream'}
+                      className="flex items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-white/90 hover:text-primary transition-colors"
+                    >
+                      <Radio className="h-4 w-4" />
+                      <span className="text-sm font-bold uppercase tracking-wide">En vivo ahora</span>
+                    </Link>
+                  )}
+
                   {nav.map((i) => (
                     <Link
                       key={i.name}
@@ -68,7 +100,7 @@ export default function Header() {
                     </Link>
                   ))}
                   <Button asChild className="mt-2 uppercase tracking-wider font-bold">
-                    <Link href="#contact">Hire Me</Link>
+                    <Link href="#contact">Impulsa tu idea</Link>
                   </Button>
                 </div>
               </SheetContent>
