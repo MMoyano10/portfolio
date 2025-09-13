@@ -1,0 +1,52 @@
+{
+  "placeholderImages": [
+    {
+      "id": "project-1",
+      "description": "SpotVue UI",
+      "imageUrl": "https://picsum.photos/seed/spotvue/600/800",
+      "imageHint": "analytics dashboard"
+    },
+    {
+      "id": "project-2",
+      "description": "ReservNow app",
+      "imageUrl": "https://picsum.photos/seed/reservnow/600/800",
+      "imageHint": "mobile app booking"
+    },
+    {
+      "id": "project-3",
+      "description": "Invencible branding",
+      "imageUrl": "https://picsum.photos/seed/invencible/600/800",
+      "imageHint": "ecommerce brand"
+    },
+    {
+      "id": "kick-clip-1",
+      "description": "Stream highlight 1",
+      "imageUrl": "https://picsum.photos/seed/kick1/400/300",
+      "imageHint": "gaming stream"
+    },
+    {
+      "id": "kick-clip-2",
+      "description": "Stream highlight 2",
+      "imageUrl": "https://picsum.photos/seed/kick2/400/300",
+      "imageHint": "coding stream"
+    },
+    {
+      "id": "kick-clip-3",
+      "description": "Stream highlight 3",
+      "imageUrl": "https://picsum.photos/seed/kick3/400/300",
+      "imageHint": "podcast talking"
+    },
+    {
+      "id": "kick-clip-4",
+      "description": "Stream highlight 4",
+      "imageUrl": "https://picsum.photos/seed/kick4/400/300",
+      "imageHint": "gameplay funny"
+    },
+    {
+      "id": "about-photo",
+      "description": "Mathius Moyano profile photo",
+      "imageUrl": "https://picsum.photos/seed/mathius/500/500",
+      "imageHint": "man portrait"
+    }
+  ]
+}
