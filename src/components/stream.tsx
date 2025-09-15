@@ -1,81 +1,148 @@
-import Image from 'next/image';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Button } from '@/components/ui/button';
-import { Calendar } from 'lucide-react';
-import Link from 'next/link';
+'use client';
 
-const schedule = [
-  { day: 'Mon', time: '8 PM EST - Dev Stream' },
-  { day: 'Wed', time: '8 PM EST - Project Build' },
-  { day: 'Fri', time: '9 PM EST - Gaming Night' },
+import Image from 'next/image';
+import Link from 'next/link';
+import useSWR from 'swr';
+import { Calendar, Loader2, Radio } from 'lucide-react';
+
+import ComingSoonImage from '../../source/images/ComingSoon.png';
+import InstagramImage from '../../source/images/Instagram.png';
+import TikTokImage from '../../source/images/Tiktok.png'; 
+
+const schedule: Array<{ day: 'Jueves' | 'Viernes' | 'Sábado'; time?: string }> = [
+  { day: 'Jueves', time: '21:00'  },                    
+  { day: 'Viernes', time: '21:00' },    
+  { day: 'Sábado', time: '21:00'  },                    
 ];
 
-const clips = ['kick-clip-1', 'kick-clip-2', 'kick-clip-3', 'kick-clip-4'];
+const clips = [
+  { id: 'clip-1', image: ComingSoonImage, link: '#' },
+  { id: 'clip-2', image: InstagramImage, link: 'https://instagram.com/mathiusmoyano' },
+  { id: 'clip-3', image: TikTokImage, link: 'https://tiktok.com/@mathiusmoyano' },
+];
+
+type KickStatus = { live: boolean; title?: string | null; user?: string };
+
+const fetcher = (url: string) => fetch(url, { cache: 'no-store' }).then((r) => r.json());
 
 export default function Stream() {
-  const getImage = (id: string) => PlaceHolderImages.find(img => img.id === id);
+  const username = process.env.NEXT_PUBLIC_KICK_USERNAME || 'mathiusmoyano';
+
+  const { data, isLoading } = useSWR<KickStatus>(
+    `/api/kick/status?user=${encodeURIComponent(username)}`,
+    fetcher,
+    { refreshInterval: 15000 }
+  );
+
+  const isLive = !!data?.live;
+  const title = data?.title ?? null;
+  const channel = data?.user || username;
 
   return (
     <section id="stream" className="py-24 sm:py-32">
       <div className="container">
         <div className="text-center mb-16">
-          <h2 className="font-headline text-5xl md:text-7xl uppercase text-white">Live on Kick</h2>
-          <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Building, breaking, and gaming. Join the community.</p>
+          <div className="mx-auto mb-3 inline-flex items-center gap-2 rounded-full border border-primary/50 px-3 py-1 text-xs uppercase tracking-widest text-primary">
+            <Radio className={`h-3.5 w-3.5 ${isLive ? 'animate-pulse' : ''}`} />
+            <span>{isLive ? 'En vivo en Kick' : 'Centro de Stream'}</span>
+          </div>
+          <h2 className="font-headline text-5xl md:text-7xl uppercase text-white">
+            {isLive ? 'Estamos en vivo' : 'Próxima transmisión'}
+          </h2>
+          <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
+            {isLive ? 'Míralo aquí mismo o ábrelo en Kick.' : 'Construyendo, probando y jugando. Únete a la comunidad.'}
+          </p>
         </div>
+
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <div className="aspect-video w-full overflow-hidden rounded-none border-2 border-primary shadow-2xl">
+            <div className="aspect-video w-full overflow-hidden rounded-none border-2 border-primary shadow-2xl bg-black relative">
+              {isLoading && (
+                <div className="absolute inset-0 grid place-items-center text-white/80">
+                  <Loader2 className="h-8 w-8 animate-spin" />
+                </div>
+              )}
+
               <iframe
+                key={`kick-${channel}-${isLive ? 'live' : 'offline'}`}
                 width="100%"
                 height="100%"
-                src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=0&mute=1" 
-                title="Lofi hip hop radio"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen>
-              </iframe>
+                src={`https://player.kick.com/${channel}${isLive ? '?autoplay=1&muted=1' : ''}`}
+                title={`Kick: ${channel}`}
+                frameBorder={0}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+
+            <div className="mt-3 flex items-center justify-between text-sm">
+              <Link
+                href={`https://kick.com/${channel}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 underline underline-offset-4 hover:no-underline"
+                aria-label="Abrir canal en Kick en una nueva pestaña"
+              >
+                Abrir en Kick
+              </Link>
+              {title ? <span className="text-white/60 line-clamp-1">{title}</span> : null}
             </div>
           </div>
+
           <div className="space-y-6 flex flex-col">
             <div className="p-6 rounded-none border border-border/50 bg-card flex-grow">
-              <h3 className="font-headline text-2xl uppercase mb-4 flex items-center gap-2"><Calendar className="text-primary"/> Schedule</h3>
+              <h3 className="font-headline text-2xl uppercase mb-4 flex items-center gap-2">
+                <Calendar className="text-primary" /> Horarios
+              </h3>
               <ul className="space-y-3">
-                {schedule.map(item => (
-                  <li key={item.day} className="flex items-baseline gap-4">
-                    <span className="font-bold text-accent w-10">{item.day}</span>
-                    <span className="text-muted-foreground">{item.time}</span>
+                {schedule.map((item, i) => (
+                  <li key={`${item.day}-${i}`} className="flex items-baseline gap-4">
+                    <span className="font-bold text-accent w-20">{item.day}</span>
+                    <span className="text-muted-foreground">
+                      {item.time ?? 'Horario variable'}
+                    </span>
                   </li>
                 ))}
               </ul>
+              <p className="mt-3 text-xs text-white/50">
+                *Los horarios pueden cambiar según el día. Revisa el canal para actualizaciones.
+              </p>
             </div>
-            <Button asChild className="w-full font-bold uppercase tracking-wider text-lg rounded-none" size="lg">
-              <Link href="#" target="_blank">
-                <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 fill-current"><title>Discord</title><path d="M20.317 4.369a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.369-.42.738-.609 1.114a18.29 18.29 0 00-1.213-.135 18.29 18.29 0 00-1.213.135c-.199-.376-.4-.745-.609-1.114a.074.074 0 00-.079-.037A19.736 19.736 0 003.683 4.37a.074.074 0 00-.04.066C3.003 9.49 2.158 14.12 4.025 17.51a.074.074 0 00.066.047c.399-.148.78-.304 1.15-.473a.074.074 0 00.04-.066 14.156 14.156 0 00-.239-1.076.074.074 0 00-.066-.037 13.064 13.064 0 01-.458-.239c.148-.098.296-.207.443-.315a.074.074 0 00.066-.027 12.87 12.87 0 003.732 2.023.074.074 0 00.088-.047c.21-.464.409-.948.598-1.45a.074.074 0 00-.027-.088 12.817 12.817 0 00-1.762-.948.074.074 0 00-.098.027c-.495.698-1.01 1.34-1.524 1.992a.074.074 0 00.018.107 14.947 14.947 0 003.045 1.762c.799.315 1.597.598 2.396.862a.074.074 0 00.088-.027 19.348 19.348 0 005.16-4.539.074.074 0 00.018-.088 15.013 15.013 0 00-1.533-2.002.074.074 0 00-.098-.018c-.533.35-.978.738-1.462 1.076a.074.074 0 00-.057.077c-.018.24-.057.558-.098.847a.074.074 0 00.04.077c.458.197.907.385 1.355.564a.074.074 0 00.066-.037c1.866-3.391.992-8.02.35-13.064a.074.074 0 00-.04-.066zm-4.634 8.178a3.391 3.391 0 01-3.391-3.391 3.391 3.391 0 013.39-3.39 3.391 3.391 0 013.392 3.39 3.391 3.391 0 01-3.391 3.391zm6.782 0a3.391 3.391 0 01-3.391-3.391 3.391 3.391 0 013.39-3.39 3.391 3.391 0 013.392 3.39 3.391 3.391 0 01-3.391 3.391z"/></svg>
-                Join The Discord
-              </Link>
-            </Button>
+
+            <a
+              href={process.env.NEXT_PUBLIC_DISCORD_INVITE || '#'}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-full items-center justify-center border-2 border-black bg-white px-4 py-3 font-bold uppercase tracking-wider text-black transition hover:bg-primary hover:text-white"
+              aria-label="Unirte al servidor de Discord en una nueva pestaña"
+            >
+              <svg role="img" viewBox="0 0 24 24" className="h-6 w-6 mr-2 fill-current" aria-hidden>
+                <title>Discord</title>
+                <path d="M20.317 4.369a19.791 19.791 0 00-4.885-1.515...Z" />
+              </svg>
+              Unirte al Discord
+            </a>
           </div>
         </div>
+
         <div className="mt-16">
-            <h3 className="font-headline text-3xl uppercase mb-6 text-center">Featured Clips</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {clips.map(clipId => {
-                    const image = getImage(clipId);
-                    return image ? (
-                        <div key={clipId} className="group relative aspect-video overflow-hidden rounded-none shadow-lg">
-                            <Image
-                                src={image.imageUrl}
-                                alt={image.description}
-                                fill
-                                sizes="(max-width: 768px) 50vw, 25vw"
-                                data-ai-hint={image.imageHint}
-                                className="object-cover transition-transform duration-300 group-hover:scale-110"
-                            />
-                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        </div>
-                    ) : null;
-                })}
-            </div>
+          <h3 className="font-headline text-3xl uppercase mb-6 text-center">Clips Destacados</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {clips.map((clip) => (
+              <Link key={clip.id} href={clip.link} target="_blank" rel="noopener noreferrer">
+                <div className="group relative aspect-video overflow-hidden rounded-none shadow-lg">
+                  <Image
+                    src={clip.image}
+                    alt={clip.id}
+                    fill
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    className="object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </section>
