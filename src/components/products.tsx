@@ -6,14 +6,9 @@ import Link from 'next/link';
 import { CheckCircle } from 'lucide-react';
 import { useMemo } from 'react';
 
-// (12) Tracking simple: compatible con gtag o consola
 function trackCTA(product: string, cta: string) {
-  // Google Analytics si está disponible
-  // @ts-ignore
   window?.gtag?.('event', 'click_cta', { product, cta });
   if (typeof window !== 'undefined' && !window?.gtag) {
-    // Fallback en dev
-    // eslint-disable-next-line no-console
     console.log('[trackCTA]', { product, cta });
   }
 }
@@ -123,76 +118,72 @@ export default function Products() {
   };
 
   return (
-    <section id="products" className="py-24 sm:py-32">
-      <div className="container">
-        <div className="text-center mb-16">
-          <h2 className="font-headline text-5xl md:text-7xl uppercase text-white">
-            Productos
-          </h2>
-          <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
+    <section id="products" className="py-16 sm:py-24">
+      <div className="container max-w-[1080px] mx-auto">
+        <div className="text-center mb-12">          <h2 className="font-headline text-3xl md:text-5xl uppercase text-white">Productos</h2>
+          <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto">
             Soluciones diseñadas para transformar experiencias digitales.
           </p>
         </div>
 
-        {/* (10) SEO JSON-LD */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-x-8 gap-y-10">
           {products.map((product) => (
             <Card
               key={product.name}
-              className="bg-card border-2 border-black flex flex-col transition duration-300 hover:-translate-y-1 hover:rotate-[-1deg] hover:shadow-[0_0_30px_rgba(239,68,68,0.25)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:rotate-0 rounded-none"
+              className="bg-card border border-black/80 flex flex-col transition duration-300 hover:-translate-y-[2px] hover:rotate-[-0.5deg] hover:shadow-[0_0_22px_rgba(239,68,68,0.18)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:rotate-0 rounded-none"
             >
-              <CardHeader className="p-8">
-                <div className="mb-3 flex items-center gap-2">
-                  <span className="inline-block text-[11px] font-bold tracking-wider uppercase text-white bg-black px-2 py-1">
+              <CardHeader className="p-5">
+                <div className="mb-2.5 flex items-center gap-2">
+                  <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-white bg-black px-1.5 py-0.5">
                     {product.category}
                   </span>
                   {product.isNew && (
-                    <span className="inline-block text-[11px] font-bold tracking-wider uppercase text-black bg-yellow-400 px-2 py-1">
+                    <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-black bg-yellow-400 px-1.5 py-0.5">
                       Nuevo
                     </span>
                   )}
                   {product.inDevelopment && (
-                    <span className="inline-block text-[11px] font-bold tracking-wider uppercase text-black bg-blue-400 px-2 py-1">
+                    <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-black bg-blue-400 px-1.5 py-0.5">
                       In Development
                     </span>
                   )}
                 </div>
 
                 <CardTitle
-                  className="font-headline text-4xl uppercase text-red-600"
+                  className="font-headline text-2xl md:text-3xl uppercase text-red-600 leading-tight"
                   style={{ WebkitTextStroke: '1px black', color: 'red' }}
                 >
                   {product.name}
                 </CardTitle>
               </CardHeader>
 
-              <CardContent className="flex-grow flex flex-col p-8 pt-0">
-                <div className="flex-grow space-y-6">
+              <CardContent className="flex-grow flex flex-col p-5 pt-0">
+                <div className="flex-grow space-y-4">
                   <div>
-                    <h3 className="font-bold text-accent uppercase text-sm mb-2 tracking-widest">
+                    <h3 className="font-bold text-accent uppercase text-[10px] mb-1.5 tracking-widest">
                       Problema
                     </h3>
-                    <p className="text-muted-foreground text-sm">{product.problem}</p>
+                    <p className="text-muted-foreground text-xs">{product.problem}</p>
                   </div>
                   <div>
-                    <h3 className="font-bold text-accent uppercase text-sm mb-2 tracking-widest">
+                    <h3 className="font-bold text-accent uppercase text-[10px] mb-1.5 tracking-widest">
                       Solución
                     </h3>
-                    <p className="text-muted-foreground text-sm">{product.solution}</p>
+                    <p className="text-muted-foreground text-xs">{product.solution}</p>
                   </div>
                   <div>
-                    <h3 className="font-bold text-accent uppercase text-sm mb-3 tracking-widest">
+                    <h3 className="font-bold text-accent uppercase text-[10px] mb-2 tracking-widest">
                       Características
                     </h3>
-                    <ul className="grid grid-cols-2 gap-x-4 gap-y-1 text-muted-foreground text-sm">
+                    <ul className="grid grid-cols-2 gap-x-3 gap-y-1 text-muted-foreground text-xs">
                       {product.features.map((feature) => (
-                        <li key={feature} className="flex items-center gap-2">
-                          <CheckCircle className="h-4 w-4 text-red-600" />
+                        <li key={feature} className="flex items-center gap-1.5">
+                          <CheckCircle className="h-3 w-3 text-red-600" />
                           <span className="truncate">{feature}</span>
                         </li>
                       ))}
@@ -202,7 +193,8 @@ export default function Products() {
 
                 <Button
                   asChild
-                  className="w-full mt-8 font-bold uppercase tracking-wider rounded-none"
+                  size="sm"
+                  className="w-full mt-5 font-bold uppercase tracking-wider rounded-none text-xs py-2.5"
                   variant={resolveVariant(product.name)}
                 >
                   <Link
@@ -214,10 +206,10 @@ export default function Products() {
                   >
                     {product.cta.text}
                   </Link>
-                </Button>                      
+                </Button>
 
                 {product.microcopy && (
-                  <p className="mt-2 text-[11px] text-white/70">{product.microcopy}</p>
+                  <p className="mt-2 text-[10px] text-white/70">{product.microcopy}</p>
                 )}
               </CardContent>
             </Card>
