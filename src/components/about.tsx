@@ -100,7 +100,7 @@ export default function About() {
                 </svg>
 
                 <Image
-                  src="/images/profile-hero.jpg" // 👉 pon aquí tu foto grande (2000x2600 aprox)
+                  src="/images/profile-hero.jpg"
                   alt="Mathius Moyano"
                   fill
                   priority
@@ -109,10 +109,10 @@ export default function About() {
                 />
 
                 <div className="absolute left-0 right-0 bottom-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent p-6">
-                  <h1 className="font-headline text-3xl sm:text-4xl uppercase text-white tracking-wide">
+                  <h1 className="font-headline text-xl sm:text-2xl uppercase text-white tracking-wide">
                     Mathius Moyano
                   </h1>
-                  <p className="text-white/80 text-sm mt-1">
+                  <p className="text-white/80 text-xs mt-1">
                     Full-stack Engineer · React / .NET / Java
                   </p>
 
@@ -135,11 +135,12 @@ export default function About() {
                 </div>
               </div>
             </div>
-          </div>   
+          </div>
+
           <div className="lg:col-span-7 space-y-10">
             <header className="space-y-3">
-              <h2 className="font-headline text-5xl md:text-6xl uppercase text-white">Sobre mí</h2>
-              <p className="text-muted-foreground text-lg leading-relaxed">
+              <h2 className="font-headline text-3xl md:text-4xl uppercase text-white">Sobre mí</h2>
+              <p className="text-muted-foreground text-sm leading-relaxed">
                 Ingeniero de software full-stack. Construyo productos escalables combinando ingeniería
                 sólida y criterio de producto. Trabajo cómodo entre backend (.NET/Java) y frontend
                 (React/Next.js), con bases relacionales y prácticas ágiles.
@@ -158,7 +159,7 @@ export default function About() {
                       {exp.periodo && <span className="text-xs text-white/60">{exp.periodo}</span>}
                     </div>
                     <p className="text-white/80">{exp.empresa}</p>
-                    <ul className="mt-2 list-disc pl-5 text-sm text-white/80 space-y-1">
+                    <ul className="mt-2 list-disc pl-5 text-xs text-white/80 space-y-1">
                       {exp.bullets.map((b, i) => (
                         <li key={i}>{b}</li>
                       ))}
@@ -194,14 +195,14 @@ export default function About() {
 
             <section className="grid md:grid-cols-2 gap-6">
               <Card title="Formación">
-                <ul className="list-disc pl-5 text-sm text-white/80 space-y-1">
+                <ul className="list-disc pl-5 text-xs text-white/80 space-y-1">
                   {educacion.map((e) => (
                     <li key={e}>{e}</li>
                   ))}
                 </ul>
               </Card>
               <Card title="Certificaciones" icon={<Award className="h-5 w-5 text-primary" />}>
-                <ul className="list-disc pl-5 text-sm text-white/80 space-y-1">
+                <ul className="list-disc pl-5 text-xs text-white/80 space-y-1">
                   {certificaciones.map((c) => (
                     <li key={c}>{c}</li>
                   ))}
@@ -211,14 +212,14 @@ export default function About() {
 
             <section className="grid md:grid-cols-2 gap-6">
               <Card title="Logros">
-                <ul className="list-disc pl-5 text-sm text-white/80 space-y-1">
+                <ul className="list-disc pl-5 text-xs text-white/80 space-y-1">
                   {logros.map((l) => (
                     <li key={l}>{l}</li>
                   ))}
                 </ul>
               </Card>
               <Card title="Idiomas">
-                <p className="text-sm text-white/80">{idiomas.join(' · ')}</p>
+                <p className="text-xs text-white/80">{idiomas.join(' · ')}</p>
               </Card>
             </section>
           </div>

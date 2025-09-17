@@ -31,7 +31,7 @@ export default function Contacto() {
       nombre: String(formData.get("name") || ""),
       email: String(formData.get("email") || ""),
       mensaje: String(formData.get("message") || ""),
-      empresa: String(formData.get("company") || ""), // honeypot
+      empresa: String(formData.get("company") || ""),
     };
 
     try {
@@ -48,16 +48,14 @@ export default function Contacto() {
       });
 
       const json = await res.json();
-      if (!res.ok || !json.ok) {
-        throw new Error(json.error || "No se pudo enviar");
-      }
+      if (!res.ok || !json.ok) throw new Error(json.error || "No se pudo enviar");
 
       toast({
         title: "✅ Mensaje enviado",
         description: "Gracias por contactarme, te responderé pronto.",
       });
       form.reset();
-    } catch (err) {
+    } catch {
       toast({
         title: "❌ Error al enviar",
         description: "Por favor intenta de nuevo en unos minutos.",
@@ -69,84 +67,74 @@ export default function Contacto() {
   }
 
   return (
-    <section id="contacto" className="py-24 sm:py-32">
+    <section id="contact" className="py-20 sm:py-28">
       <div className="container max-w-4xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="font-headline text-5xl md:text-7xl uppercase text-white">Contacto</h2>
-          <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
+        <div className="text-center mb-14">
+          <h2 className="font-headline text-2xl md:text-4xl uppercase text-white">Contacto</h2>
+          <p className="text-xs text-muted-foreground mt-2 max-w-2xl mx-auto">
             ¿Tienes un proyecto, una idea o simplemente quieres saludar? Escríbeme un mensaje.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-start bg-card p-8 md:p-12 border border-border/50">
-          {/* FORMULARIO */}
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            {/* Honeypot oculto */}
+        <div className="grid md:grid-cols-2 gap-10 items-start bg-card p-8 md:p-10 border border-border/50">
+          <form className="space-y-5" onSubmit={handleSubmit}>
             <div className="hidden" aria-hidden="true">
               <Label htmlFor="company">Empresa</Label>
               <Input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
             </div>
 
             <div>
-              <Label htmlFor="name" className="font-bold uppercase text-sm tracking-wider">Nombre</Label>
-              <Input id="name" name="name" type="text" placeholder="Tu nombre" className="mt-2 bg-background rounded-none" required />
+              <Label htmlFor="name" className="font-bold uppercase text-xs tracking-wider">Nombre</Label>
+              <Input id="name" name="name" type="text" placeholder="Tu nombre" className="mt-2 bg-background rounded-none h-8 text-xs" required />
             </div>
 
             <div>
-              <Label htmlFor="email" className="font-bold uppercase text-sm tracking-wider">Correo electrónico</Label>
-              <Input id="email" name="email" type="email" placeholder="tucorreo@ejemplo.com" className="mt-2 bg-background rounded-none" required />
+              <Label htmlFor="email" className="font-bold uppercase text-xs tracking-wider">Correo electrónico</Label>
+              <Input id="email" name="email" type="email" placeholder="tucorreo@ejemplo.com" className="mt-2 bg-background rounded-none h-8 text-xs" required />
             </div>
 
             <div>
-              <Label htmlFor="message" className="font-bold uppercase text-sm tracking-wider">Mensaje</Label>
-              <Textarea id="message" name="message" placeholder="Escribe tu mensaje..." rows={5} className="mt-2 bg-background rounded-none" required />
+              <Label htmlFor="message" className="font-bold uppercase text-xs tracking-wider">Mensaje</Label>
+              <Textarea id="message" name="message" placeholder="Escribe tu mensaje..." rows={5} className="mt-2 bg-background rounded-none text-xs py-2" required />
             </div>
 
             <Button
               type="submit"
-              className="w-full font-bold uppercase tracking-wider text-lg rounded-none"
-              size="lg"
+              className="w-full font-bold uppercase tracking-wider text-xs rounded-none"
+              size="sm"
               disabled={loading}
             >
               {loading ? "Enviando..." : "Enviar mensaje"}
             </Button>
           </form>
 
-          {/* COLUMNA: AGENDAR LLAMADA */}
           <div className="text-center md:text-left mt-8 md:mt-0">
-            <h3 className="font-headline text-3xl uppercase text-white mb-4">O agenda una llamada</h3>
-            <p className="text-muted-foreground mb-6">
+            <h3 className="font-headline text-lg uppercase text-white mb-3">O agenda una llamada</h3>
+            <p className="text-xs text-muted-foreground mb-5">
               Programa una llamada introductoria de 30 minutos para hablar de tu proyecto en detalle.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-3">
-              {/* Botón modal (Calendly embebido) */}
+            <div className="flex flex-col sm:flex-row gap-2.5">
               <Button
-                className="font-bold uppercase tracking-wider text-lg rounded-none border-2"
+                className="font-bold uppercase tracking-wider text-xs rounded-none border-2"
                 variant="outline"
-                size="lg"
+                size="sm"
                 onClick={() => setOpen(true)}
               >
                 Agendar aquí (recomendado)
               </Button>
 
-              {/* Fallback: abrir en pestaña nueva */}
-              <Button
-                asChild
-                size="lg"
-                className="font-bold uppercase tracking-wider text-lg rounded-none"
-              >
+              <Button asChild size="sm" className="font-bold uppercase tracking-wider text-xs rounded-none">
                 <Link href={calendlyUrl} target="_blank" rel="noopener noreferrer">
                   Abrir en Calendly
                 </Link>
               </Button>
             </div>
 
-            {/* Modal con Calendly embebido */}
             <Dialog open={open} onOpenChange={setOpen}>
-              <DialogContent className="max-w-3xl w-full p-0 overflow-hidden">
+              <DialogContent className="max-w-2xl w-full p-0 overflow-hidden">
                 <DialogHeader className="px-6 pt-6">
-                  <DialogTitle>Agenda tu llamada</DialogTitle>
+                <DialogTitle className="text-sm">Agenda tu llamada</DialogTitle>
                 </DialogHeader>
                 <div className="px-6 pb-6">
                   <div className="aspect-video w-full border border-border/50">
@@ -158,7 +146,7 @@ export default function Contacto() {
                       referrerPolicy="no-referrer-when-downgrade"
                     />
                   </div>
-                  <p className="text-xs text-muted-foreground mt-3">
+                  <p className="text-[11px] text-muted-foreground mt-3">
                     Si no puedes ver el calendario, usa el botón “Abrir en Calendly”.
                   </p>
                 </div>
