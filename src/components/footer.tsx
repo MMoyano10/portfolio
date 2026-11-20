@@ -1,14 +1,19 @@
+'use client';
+
 import Link from 'next/link';
 import { Github, Twitter, Linkedin, Instagram, Youtube } from 'lucide-react';
 import KickIcon from '../../source/icons/kick-icon';
+import { useLanguage, localized } from '@/context/language-context';
+
 
 export default function Footer() {
+  const { language } = useLanguage();
   const year = new Date().getFullYear();
   return (
     <footer className="border-t border-border/40 bg-card">
       <div className="container flex flex-col md:flex-row items-center justify-between py-8">
         <p className="text-sm text-muted-foreground text-center md:text-left">
-          &copy; {year} Mathius Moyano. All Rights Reserved.
+          &copy; {year} Mathius Moyano. {localized(language, 'All rights reserved.', 'Todos los derechos reservados.')}
         </p>
         <div className="flex gap-4 mt-4 md:mt-0">
           <Link

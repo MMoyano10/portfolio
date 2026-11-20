@@ -3,8 +3,10 @@ import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import backgroundImage from '../../source/images/background.png';
+import { useLanguage, localized } from '@/context/language-context';
 
 export default function Hero() {
+  const { language } = useLanguage();
   const [isLive, setIsLive] = useState(false);
   const [loadingLive, setLoadingLive] = useState<boolean>(true);
   const [errorLive, setErrorLive] = useState<string | null>(null);
@@ -62,7 +64,7 @@ export default function Hero() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-foreground opacity-75" />
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary-foreground" />
                 </span>
-                En vivo ahora
+                {localized(language, 'Live now', 'En vivo ahora')}
               </span>
             </div>
           )}
@@ -82,7 +84,7 @@ export default function Hero() {
             size="sm"
             className="font-bold uppercase tracking-wider text-sm px-5 py-3 rounded-none"
           >
-            <Link href="#contact">Hablemos de oportunidades</Link>
+            <Link href="#contact">{localized(language, 'Let’s connect', 'Hablemos de oportunidades')}</Link>
           </Button>
           <Button
             asChild
@@ -90,7 +92,7 @@ export default function Hero() {
             size="sm"
             className="font-bold uppercase tracking-wider text-sm px-5 py-3 rounded-none border-2"
           >
-            <Link href="#projects">Ver proyectos</Link>
+            <Link href="#projects">{localized(language, 'Explore projects', 'Ver proyectos')}</Link>
           </Button>
         </div>
       </div>

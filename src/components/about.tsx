@@ -1,6 +1,7 @@
 'use client';
 
 import { Award, BrainCircuit, Download, Rocket } from 'lucide-react';
+import { useLanguage, localized } from '@/context/language-context';
 
 type Exp = { empresa: string; rol: string; periodo?: string; bullets: string[] };
 type Badge = { label: string };
@@ -66,7 +67,18 @@ const logros = [
 
 const idiomas = ['Español (Nativo)', 'Inglés (B2)'];
 
+const experienceEn: Exp[] = [
+  { empresa: 'WebCreek', rol: 'Software Developer I · 84 Lumber client', periodo: 'Apr 2024 – Jul 2025', bullets: ['Maintained and enhanced 5 purchase-order microservices using C#, Entity Framework and SQL Server.', 'Diagnosed failures, implemented approved hotfixes and SQL indexes, and improved React interfaces.', 'Prepared pull requests, supported release validation and planned infrastructure migration work.'] },
+  { empresa: 'SpotVue', rol: 'Full-stack Software Engineer', periodo: 'Aug 2024 – Present', bullets: ['Contributed to 8 .NET microservices, data models, repositories, REST APIs and PostgreSQL structures.', 'Extended AI image-processing orchestration with assessment jobs and manual exclusion rules.', 'Built React/TypeScript UI, GitHub Actions workflows and validated flows with SQL, Postman and two customer demos.'] },
+  { empresa: 'Smartic Solution', rol: 'Junior Software Developer · Part-time', periodo: 'Jan 2022 – Apr 2024', bullets: ['Contributed to web and mobile applications with Angular, React, Ionic and .NET.', 'Implemented interfaces, backend features and API integrations.'] },
+];
+
+const educationEn = ['ESPE · Engineering Degree in Information Technology (2021 – Aug 2026)', 'Sebastián de Benalcázar High School · Science Diploma (2014 – 2020)'];
+const achievementsEn = ['Third place, ESPE student research recognition (2025).', 'ARTIS 2024 presenter: “Safe Place”, an anxiety management application.'];
+
 export default function About() {
+  const { language } = useLanguage();
+  const en = language === 'en';
   return (
     <section id="about" className="relative bg-card">
       <div
@@ -103,11 +115,11 @@ export default function About() {
                   </p>
 
                   <div className="mt-4 flex flex-wrap gap-2">
-                    <Stat label="Experiencia profesional desde" value="2022" />
-                    <Stat label="Formación" value="ESPE" />
+                    <Stat label={localized(language, 'Professional experience since', 'Experiencia profesional desde')} value="2022" />
+                    <Stat label={localized(language, 'Education', 'Formación')} value="ESPE" />
                   </div>
 
-                  <a href="/docs/MathiusMoyano.pdf" download="Mathius_Moyano_CV.pdf" className="mt-5 inline-flex items-center gap-2 rounded-lg bg-white px-5 py-3 text-sm font-bold text-black transition hover:bg-primary hover:text-white"><Download size={17}/> Descargar CV actualizado</a>
+                  <a href={en ? '/docs/MathiusMoyano_EN.pdf' : '/docs/MathiusMoyano.pdf'} download={en ? 'Mathius_Moyano_CV_EN.pdf' : 'Mathius_Moyano_CV_ES.pdf'} className="mt-5 inline-flex items-center gap-2 rounded-lg bg-white px-5 py-3 text-sm font-bold text-black transition hover:bg-primary hover:text-white"><Download size={17}/> {localized(language, 'Download résumé', 'Descargar CV actualizado')}</a>
                 </div>
               </div>
             </div>
@@ -115,21 +127,20 @@ export default function About() {
 
           <div className="lg:col-span-7 space-y-10">
             <header className="space-y-3">
-              <h2 className="font-headline text-3xl md:text-4xl uppercase text-white">Sobre mí</h2>
+              <h2 className="font-headline text-3xl md:text-4xl uppercase text-white">{localized(language, 'About me', 'Sobre mí')}</h2>
               <p className="text-muted-foreground text-sm leading-relaxed">
-                Soy ingeniero en Tecnologías de la Información graduado de la ESPE. He desarrollado
-                microservicios .NET y aplicaciones React para productos tecnológicos y sistemas empresariales,
-                incluido el cliente estadounidense 84 Lumber. Me especializo en backend, arquitectura SaaS
-                e integración de inteligencia artificial, desde pipelines de imágenes hasta búsqueda semántica con RAG.
+                {localized(language,
+                  'I am an Information Technology Engineering graduate from ESPE. I build .NET microservices and React applications for technology products and enterprise systems, including the US-based client 84 Lumber. My interests include backend architecture, SaaS platforms and applied AI, from image processing pipelines to RAG-based semantic search.',
+                  'Soy ingeniero en Tecnologías de la Información graduado de la ESPE. He desarrollado microservicios .NET y aplicaciones React para productos tecnológicos y sistemas empresariales, incluido el cliente estadounidense 84 Lumber. Me especializo en backend, arquitectura SaaS e integración de inteligencia artificial, desde pipelines de imágenes hasta búsqueda semántica con RAG.')}
               </p>
             </header>
 
             <section className="space-y-5">
               <h3 className="font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <Rocket className="h-6 w-6 text-primary" /> Experiencia
+                <Rocket className="h-6 w-6 text-primary" /> {localized(language, 'Experience', 'Experiencia')}
               </h3>
               <ul className="space-y-4">
-                {experiencia.map((exp) => (
+                {(en ? experienceEn : experiencia).map((exp) => (
                   <li key={exp.empresa} className="border border-border/40 bg-black/30 p-4">
                     <div className="flex flex-wrap items-baseline justify-between gap-2">
                       <p className="text-white font-semibold">{exp.rol}</p>
@@ -148,37 +159,36 @@ export default function About() {
 
             <section className="space-y-2">
               <h3 className="font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <BrainCircuit className="h-6 w-6 text-primary" /> Filosofía
+                <BrainCircuit className="h-6 w-6 text-primary" /> {localized(language, 'Approach', 'Filosofía')}
               </h3>
               <p className="text-muted-foreground">
-                El código es un oficio: precisión técnica + creatividad. Diseño sistemas modulares
-                con foco en calidad, mantenibilidad y resultados medibles.
+                {localized(language, 'I approach software engineering with technical precision and creative problem-solving. I build modular systems focused on quality, maintainability and measurable outcomes.', 'El código es un oficio: precisión técnica + creatividad. Diseño sistemas modulares con foco en calidad, mantenibilidad y resultados medibles.')}
               </p>
             </section>
 
             <section className="space-y-3">
-              <h3 className="font-bold text-white uppercase tracking-wider">Habilidades técnicas</h3>
+              <h3 className="font-bold text-white uppercase tracking-wider">{localized(language, 'Technical skills', 'Habilidades técnicas')}</h3>
               <ul className="flex flex-wrap gap-2">
                 {skills.map((s) => (
                   <li
                     key={s.label}
                     className="rounded border border-white/15 bg-white/10 px-2 py-1 text-[11px] uppercase tracking-widest text-white/90"
                   >
-                    {s.label}
+                    {en ? s.label.replace('Microservicios', 'Microservices').replace('IA / LLMs', 'AI / LLMs') : s.label}
                   </li>
                 ))}
               </ul>
             </section>
 
             <section className="grid md:grid-cols-2 gap-6">
-              <Card title="Formación">
+              <Card title={localized(language, 'Education', 'Formación')}>
                 <ul className="list-disc pl-5 text-xs text-white/80 space-y-1">
-                  {educacion.map((e) => (
+                  {(en ? educationEn : educacion).map((e) => (
                     <li key={e}>{e}</li>
                   ))}
                 </ul>
               </Card>
-              <Card title="Certificaciones" icon={<Award className="h-5 w-5 text-primary" />}>
+              <Card title={localized(language, 'Certifications', 'Certificaciones')} icon={<Award className="h-5 w-5 text-primary" />}>
                 <ul className="list-disc pl-5 text-xs text-white/80 space-y-1">
                   {certificaciones.map((c) => (
                     <li key={c}>{c}</li>
@@ -188,15 +198,15 @@ export default function About() {
             </section>
 
             <section className="grid md:grid-cols-2 gap-6">
-              <Card title="Logros">
+              <Card title={localized(language, 'Achievements', 'Logros')}>
                 <ul className="list-disc pl-5 text-xs text-white/80 space-y-1">
-                  {logros.map((l) => (
+                  {(en ? achievementsEn : logros).map((l) => (
                     <li key={l}>{l}</li>
                   ))}
                 </ul>
               </Card>
-              <Card title="Idiomas">
-                <p className="text-sm text-white/80">{idiomas.join(' · ')}</p>
+              <Card title={localized(language, 'Languages', 'Idiomas')}>
+                <p className="text-sm text-white/80">{en ? 'Spanish (Native) · English (B2)' : idiomas.join(' · ')}</p>
               </Card>
             </section>
           </div>

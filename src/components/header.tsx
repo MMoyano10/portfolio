@@ -5,13 +5,15 @@ import { Menu, Radio } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useLanguage, localized } from '@/context/language-context';
 
 export default function Header({ isLive = false, kickUrl }: { isLive?: boolean; kickUrl?: string }) {
+  const { language, setLanguage } = useLanguage();
   const nav = [
-    { name: 'Especialidades', href: '#products' },
-    { name: 'Proyectos', href: '#projects' },
-    { name: 'Sobre mí', href: '#about' },
-    { name: 'Contacto', href: '#contact' },
+    { name: localized(language, 'Expertise', 'Especialidades'), href: '#products' },
+    { name: localized(language, 'Projects', 'Proyectos'), href: '#projects' },
+    { name: localized(language, 'About', 'Sobre mí'), href: '#about' },
+    { name: localized(language, 'Contact', 'Contacto'), href: '#contact' },
   ];
 
   return (
@@ -56,16 +58,20 @@ export default function Header({ isLive = false, kickUrl }: { isLive?: boolean; 
                 <span className="pointer-events-none absolute -bottom-2 left-0 h-[2px] w-0 bg-gradient-to-r from-primary to-primary/40 transition-all duration-300 group-hover:w-full" />
               </Link>
             ))}
+            <div className="flex items-center rounded-lg border border-white/30 p-1" role="group" aria-label="Language / Idioma">
+              {(['en', 'es'] as const).map((lang) => <button key={lang} type="button" onClick={() => setLanguage(lang)} aria-pressed={language === lang} className={`rounded-md px-2.5 py-1 text-xs font-semibold ${language === lang ? 'bg-primary text-white' : 'text-white/70 hover:text-white'}`}>{lang.toUpperCase()}</button>)}
+            </div>
             <Button
               asChild
               size="sm"
               className="ml-2 uppercase tracking-wider font-bold text-[11px] px-3 py-1.5"
             >
-              <Link href="#contact">Contactar</Link>
+              <Link href="#contact">{localized(language, 'Get in touch', 'Contactar')}</Link>
             </Button>
           </nav>
 
-          <div className="md:hidden">
+          <div className="flex items-center gap-2 md:hidden">
+            <div className="flex rounded-lg border border-white/30 p-1" role="group" aria-label="Language / Idioma">{(['en', 'es'] as const).map((lang) => <button key={lang} type="button" onClick={() => setLanguage(lang)} aria-pressed={language === lang} className={`rounded px-2 py-1 text-xs font-semibold ${language === lang ? 'bg-primary text-white' : 'text-white/70'}`}>{lang.toUpperCase()}</button>)}</div>
             <Sheet>
               <SheetTrigger asChild>
                 <Button
@@ -103,7 +109,7 @@ export default function Header({ isLive = false, kickUrl }: { isLive?: boolean; 
                     </Link>
                   ))}
                   <Button asChild size="sm" className="mt-2 uppercase tracking-wider font-bold text-[11px] px-3 py-1.5">
-                    <Link href="#contact">Contactar</Link>
+                    <Link href="#contact">{localized(language, 'Get in touch', 'Contactar')}</Link>
                   </Button>
                 </div>
               </SheetContent>
