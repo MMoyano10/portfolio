@@ -2,8 +2,6 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const ContactSchema = z.object({
   name: z.string().min(2).max(100),
   email: z.string().email(),
@@ -24,16 +22,21 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: true });
     }
 
-    const to = process.env.CONTACT_TO!;
-    const from = process.env.CONTACT_FROM!;
+    const to = process.env.CONTACT_TO;
+    const from = process.env.CONTACT_FROM;
+    if (!process.env.RESEND_API_KEY || !to || !from) {
+      return NextResponse.json({ ok: false, error: 'Formulario temporalmente no disponible' }, { status: 503 });
+    }
 
-    await resend.emails.send({
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const sent = await resend.emails.send({
       from,
       to,
       subject: `New portfolio message from ${name}`,
-      reply_to: email,
+      replyTo: email,
       text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
     });
+    if (sent.error) throw new Error(sent.error.message);
 
     return NextResponse.json({ ok: true });
   } catch (err) {

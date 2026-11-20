@@ -73,7 +73,7 @@ export default function Hero() {
         </div>
 
         <p className="font-headline text-lg md:text-2xl lg:text-3xl text-muted-foreground uppercase tracking-widest mb-7">
-          Transformando ideas en soluciones digitales
+          Full-stack Software Engineer · .NET · React · AI
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5">
@@ -82,7 +82,7 @@ export default function Hero() {
             size="sm"
             className="font-bold uppercase tracking-wider text-sm px-5 py-3 rounded-none"
           >
-            <Link href="#contact">Impulsa tu marca</Link>
+            <Link href="#contact">Hablemos de oportunidades</Link>
           </Button>
           <Button
             asChild
@@ -90,7 +90,7 @@ export default function Hero() {
             size="sm"
             className="font-bold uppercase tracking-wider text-sm px-5 py-3 rounded-none border-2"
           >
-            <Link href="#products">Explorar portafolio</Link>
+            <Link href="#projects">Ver proyectos</Link>
           </Button>
         </div>
       </div>

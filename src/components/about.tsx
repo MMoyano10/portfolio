@@ -1,7 +1,5 @@
 'use client';
 
-import Image from 'next/image';
-import Link from 'next/link';
 import { Award, BrainCircuit, Download, Rocket } from 'lucide-react';
 
 type Exp = { empresa: string; rol: string; periodo?: string; bullets: string[] };
@@ -10,40 +8,29 @@ type Badge = { label: string };
 const experiencia: Exp[] = [
   {
     empresa: 'WebCreek',
-    rol: 'Software Engineer I (Full-Stack)',
-    periodo: 'Ene 2023 – Actual',
+    rol: 'Software Developer I · Cliente 84 Lumber',
+    periodo: 'Abr 2024 – Jul 2025',
     bullets: [
-      'Diseño y desarrollo end-to-end (.NET, React, SQL Server).',
-      'Optimización de sistemas y entregas bajo Scrum.',
-      'Foco en calidad, mantenibilidad y negocio.',
+      'Mantenimiento y mejora de 5 microservicios para órdenes de compra usando C#, Entity Framework y SQL Server.',
+      'Diagnóstico de errores, hotfixes aprobados, índices SQL y mejora de interfaces React.',
+      'Pull requests, validaciones de versiones y apoyo a la planificación de migración de infraestructura.',
     ],
   },
   {
-    empresa: 'MTOP – Ministerio de Transporte y Obras Públicas',
-    rol: 'Asesoría / Desarrollo',
-    periodo: 'Dic 2024 – Abr 2025',
+    empresa: 'SpotVue',
+    rol: 'Software Engineer · Full-stack',
+    periodo: 'Ago 2024 – Actualidad',
     bullets: [
-      'Sistema modular con microservicios (Spring Boot, Java, Ionic, PostgreSQL).',
-      'Migración de legado y transición a arquitectura distribuida.',
-    ],
-  },
-  {
-    empresa: 'SPOTVUE (por proyecto)',
-    rol: 'Desarrollador',
-    periodo: '2024 – 2025',
-    bullets: [
-      'Automatizaciones con Python y REST APIs.',
-      'Sitio en Next.js centrado en eficiencia y UX.',
+      'Contribución a 8 microservicios .NET, modelos, repositorios, APIs REST y estructuras PostgreSQL.',
+      'Lógica de orquestación para procesar imágenes con IA, jobs de evaluación y reglas de exclusión manual.',
+      'UI React/TypeScript, GitHub Actions, validación con SQL y Postman y demos con dos clientes.',
     ],
   },
   {
     empresa: 'Smartic Solution',
-    rol: 'Software Developer Jr.',
-    periodo: 'Ene 2021 – Dic 2023',
-    bullets: [
-      'Desarrollo colaborativo, pruebas y mejora continua.',
-      'Resolución de problemas y soporte técnico.',
-    ],
+    rol: 'Desarrollador Junior · Tiempo parcial',
+    periodo: 'Ene 2022 – Abr 2024',
+    bullets: ['Colaboración en aplicaciones web y móviles usando Angular, React, Ionic y .NET.', 'Implementación de interfaces, backend e integraciones con APIs.'],
   },
 ];
 
@@ -51,11 +38,13 @@ const skills: Badge[] = [
   { label: 'React' }, { label: 'Next.js' }, { label: 'Angular' }, { label: 'Ionic' },
   { label: '.NET Core' }, { label: 'Java (Spring Boot)' }, { label: 'Node.js' }, { label: 'Python' },
   { label: 'SQL Server' }, { label: 'PostgreSQL' }, { label: 'REST APIs' }, { label: 'Git' },
-  { label: 'Scrum' }, { label: 'Microservicios' },
+  { label: 'Scrum' }, { label: 'Microservicios' }, { label: 'Docker' },
+  { label: 'Firebase' }, { label: 'GitHub Actions' }, { label: 'TypeScript' }, { label: 'IA / LLMs' },
+  { label: 'RAG' }, { label: 'FAISS' }, { label: 'Entity Framework Core' },
 ];
 
 const educacion = [
-  'ESPE · Ing. en TI (Abr 2021 – presente)',
+  'ESPE · Ingeniería en Tecnologías de la Información (2021 – Ago 2026)',
   'U.E. “Sebastián de Benalcázar” · Bachillerato en Ciencias (2014 – 2020)',
 ];
 
@@ -65,6 +54,9 @@ const certificaciones = [
   'Azure AI Fundamentals – Microsoft (Sep 2023)',
   'React Basics – Meta (Abr 2024)',
   'Responsive Web Design – freeCodeCamp (Mar 2023)',
+  'IBM SkillsBuild · Getting Started with Generative AI (2026)',
+  'McKinsey Forward (2026)',
+  'AWS Academy · Cloud Foundations',
 ];
 
 const logros = [
@@ -72,7 +64,7 @@ const logros = [
   'Ponente ARTIS 2024: “Safe Place”, app de control de ansiedad.',
 ];
 
-const idiomas = ['Español (Nativo)', 'Inglés (Avanzado)'];
+const idiomas = ['Español (Nativo)', 'Inglés (B2)'];
 
 export default function About() {
   return (
@@ -99,39 +91,23 @@ export default function About() {
                   </defs>
                 </svg>
 
-                <Image
-                  src="/images/profile-hero.jpg"
-                  alt="Mathius Moyano"
-                  fill
-                  priority
-                  className="object-cover"
-                  style={{ clipPath: 'url(#clip-torn)' }}
-                />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_75%_20%,rgba(239,68,68,0.33),transparent_50%),linear-gradient(145deg,#20232b,#09090b)]" aria-hidden="true" />
+                <div className="absolute left-6 top-12 right-6 font-headline text-[clamp(3.5rem,8vw,7rem)] leading-[0.9] uppercase tracking-tight text-white/90" aria-hidden="true">BUILD.<br/>SHIP.<br/><span className="text-primary">EVOLVE.</span></div>
 
                 <div className="absolute left-0 right-0 bottom-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent p-6">
                   <h1 className="font-headline text-xl sm:text-2xl uppercase text-white tracking-wide">
                     Mathius Moyano
                   </h1>
                   <p className="text-white/80 text-xs mt-1">
-                    Full-stack Engineer · React / .NET / Java
+                    Full-stack Software Engineer · .NET / React / AI
                   </p>
 
                   <div className="mt-4 flex flex-wrap gap-2">
-                    <Stat label="Años de experiencia" value="4+" />
-                    <Stat label="Proyectos" value="10+" />
-                    <Stat label="Certificaciones" value="7" />
+                    <Stat label="Experiencia profesional desde" value="2022" />
+                    <Stat label="Formación" value="ESPE" />
                   </div>
 
-                  <div className="mt-5">
-                    <a
-                      href="/docs/MathiusMoyano.pdf"
-                      download="MathiusMoyano.pdf"
-                      className="inline-flex items-center gap-2 bg-white text-black font-bold uppercase tracking-wider px-4 py-2 border-2 border-black hover:bg-primary hover:text-white transition rounded-none"
-                    >
-                      <Download className="h-4 w-4" />
-                      Descargar CV
-                    </a>
-                  </div>
+                  <a href="/docs/MathiusMoyano.pdf" download="Mathius_Moyano_CV.pdf" className="mt-5 inline-flex items-center gap-2 rounded-lg bg-white px-5 py-3 text-sm font-bold text-black transition hover:bg-primary hover:text-white"><Download size={17}/> Descargar CV actualizado</a>
                 </div>
               </div>
             </div>
@@ -141,9 +117,10 @@ export default function About() {
             <header className="space-y-3">
               <h2 className="font-headline text-3xl md:text-4xl uppercase text-white">Sobre mí</h2>
               <p className="text-muted-foreground text-sm leading-relaxed">
-                Ingeniero de software full-stack. Construyo productos escalables combinando ingeniería
-                sólida y criterio de producto. Trabajo cómodo entre backend (.NET/Java) y frontend
-                (React/Next.js), con bases relacionales y prácticas ágiles.
+                Soy ingeniero en Tecnologías de la Información graduado de la ESPE. He desarrollado
+                microservicios .NET y aplicaciones React para productos tecnológicos y sistemas empresariales,
+                incluido el cliente estadounidense 84 Lumber. Me especializo en backend, arquitectura SaaS
+                e integración de inteligencia artificial, desde pipelines de imágenes hasta búsqueda semántica con RAG.
               </p>
             </header>
 
@@ -219,7 +196,7 @@ export default function About() {
                 </ul>
               </Card>
               <Card title="Idiomas">
-                <p className="text-xs text-white/80">{idiomas.join(' · ')}</p>
+                <p className="text-sm text-white/80">{idiomas.join(' · ')}</p>
               </Card>
             </section>
           </div>

@@ -8,9 +8,8 @@ import { cn } from '@/lib/utils';
 
 export default function Header({ isLive = false, kickUrl }: { isLive?: boolean; kickUrl?: string }) {
   const nav = [
-    { name: 'Productos', href: '#products' },
+    { name: 'Especialidades', href: '#products' },
     { name: 'Proyectos', href: '#projects' },
-    { name: 'Stream', href: '#stream' },
     { name: 'Sobre mí', href: '#about' },
     { name: 'Contacto', href: '#contact' },
   ];
@@ -62,7 +61,7 @@ export default function Header({ isLive = false, kickUrl }: { isLive?: boolean; 
               size="sm"
               className="ml-2 uppercase tracking-wider font-bold text-[11px] px-3 py-1.5"
             >
-              <Link href="#contact">Impulsa tu idea</Link>
+              <Link href="#contact">Contactar</Link>
             </Button>
           </nav>
 
@@ -104,7 +103,7 @@ export default function Header({ isLive = false, kickUrl }: { isLive?: boolean; 
                     </Link>
                   ))}
                   <Button asChild size="sm" className="mt-2 uppercase tracking-wider font-bold text-[11px] px-3 py-1.5">
-                    <Link href="#contact">Impulsa tu idea</Link>
+                    <Link href="#contact">Contactar</Link>
                   </Button>
                 </div>
               </SheetContent>

@@ -40,4 +40,6 @@
     @apply bg-background text-foreground;
     scroll-behavior: smooth;
   }
+  html { scroll-padding-top: 4rem; }
+  ::selection { background: rgba(239,68,68,.45); color: white; }
 }

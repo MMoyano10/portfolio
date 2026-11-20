@@ -19,7 +19,7 @@ export default function Contacto() {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL || "https://calendly.com";
+  const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -109,6 +109,10 @@ export default function Contacto() {
           </form>
 
           <div className="text-center md:text-left mt-8 md:mt-0">
+            <h3 className="font-headline text-lg uppercase text-white mb-3">Hablemos de tecnología</h3>
+            <p className="text-base leading-relaxed text-muted-foreground mb-5">Estoy interesado en roles de ingeniería full-stack, backend .NET, React y proyectos de IA aplicada. También puedo colaborar en el desarrollo de productos digitales.</p>
+            <div className="flex flex-wrap gap-3 mb-7"><Link href="https://github.com/MMoyano10" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-4">GitHub</Link><Link href="https://www.linkedin.com/in/mathius-moyano/" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-4">LinkedIn</Link></div>
+            {calendlyUrl && <>
             <h3 className="font-headline text-lg uppercase text-white mb-3">O agenda una llamada</h3>
             <p className="text-xs text-muted-foreground mb-5">
               Programa una llamada introductoria de 30 minutos para hablar de tu proyecto en detalle.
@@ -152,6 +156,7 @@ export default function Contacto() {
                 </div>
               </DialogContent>
             </Dialog>
+            </>}
           </div>
         </div>
       </div>

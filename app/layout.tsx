@@ -3,8 +3,8 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'Mathius Moyano: Digital Alchemist',
-  description: 'Portfolio of Mathius Moyano, a digital alchemist crafting unique web experiences.',
+  title: 'Mathius Moyano | Full-stack Software Engineer',
+  description: 'Portafolio de Mathius Moyano: ingeniería full-stack, .NET, React, microservicios, inteligencia artificial y productos SaaS.',
 };
 
 export const viewport = {
@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="es" className="dark">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

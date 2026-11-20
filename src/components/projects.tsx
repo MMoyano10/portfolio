@@ -1,183 +1,21 @@
-'use client';
+import Link from 'next/link';
+import { ArrowUpRight, Boxes, CalendarDays, GitBranch, Workflow } from 'lucide-react';
 
-import * as React from 'react';
-import Image from 'next/image';
-import { ArrowRight, BadgeCheck, Rocket, Sparkles } from 'lucide-react';
-import { useMemo } from 'react';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-
-function trackCTA(project: string, cta: string) {
-  // @ts-ignore
-  window?.gtag?.('event', 'click_cta_project', { project, cta });
-  if (typeof window !== 'undefined' && !window?.gtag) {
-    // eslint-disable-next-line no-console
-    console.log('[trackCTA:project]', { project, cta });
-  }
-}
-
-export type ProjectCard = {
-  title: string;
-  metric: string;
-  description: string;
-  imageId: string;
-  tags?: string[];
-  impact?: string;
-  isNew?: boolean;
-  inDevelopment?: boolean;
-};
-
-const projects: readonly ProjectCard[] = [
-  {
-    title: 'SpotVue',
-    metric: '+40% Signups',
-    description:
-      'Revamped the user onboarding flow, resulting in a significant increase in user acquisition.',
-    imageId: 'project-1',
-    tags: ['SaaS', 'Onboarding', 'Growth'],
-    impact: 'Crecimiento medible • Caso real',
-  },
-  {
-    title: 'ReservNow',
-    metric: '50ms API Response',
-    description:
-      'Optimized backend services to achieve near-instantaneous API responses for a seamless user experience.',
-    imageId: 'project-2',
-    tags: ['SaaS', 'OPS', 'DX'],
-    impact: 'Rendimiento extremo • Latencia baja',
-    isNew: true,
-  },
-  {
-    title: 'Invencible',
-    metric: '+25% Conversion',
-    description:
-      'Designed a high-converting e-commerce storefront with a focus on brand storytelling.',
-    imageId: 'project-3',
-    tags: ['Branding', 'E-commerce', 'Story'],
-    impact: 'Brand power • Funnel optimizado',
-    inDevelopment: false,
-  },
+const projects = [
+  { name: 'SpotVue · Product pipeline', type: 'Ingeniería · IA aplicada', icon: Workflow, description: 'Flujos para importar catálogos, validar productos e imágenes y coordinar procesos de evaluación y generación asistidos por IA.', contribution: 'Implementé lógica del orquestador, servicios y repositorios, integraciones con Kiota y persistencia en PostgreSQL.', stack: ['.NET', 'React', 'PostgreSQL', 'Kiota', 'Microservicios'], link: 'https://www.spotvue.com/es/', label: 'Conocer SpotVue' },
+  { name: 'ReservNow', type: 'Producto propio · SaaS', icon: CalendarDays, description: 'Plataforma de reservas para negocios con gestión de horarios, servicios, enlaces de reserva y arquitectura multi-tenant.', contribution: 'Diseño y desarrollo full-stack, autenticación, reglas de acceso, aprovisionamiento y pruebas automatizadas. Producto en evolución.', stack: ['Next.js', 'TypeScript', 'Firebase', 'Tailwind', 'Genkit'], link: 'https://reservenw.com', label: 'Explorar ReservNow' },
+  { name: 'Ragvig · Búsqueda semántica', type: 'IA · Proyecto individual', icon: Boxes, description: 'Prototipo funcional de búsqueda semántica con recuperación de información asistida por modelos de lenguaje.', contribution: 'Implementé de manera individual embeddings vectoriales, FAISS y RAG, con evaluación frente a una búsqueda tradicional.', stack: ['Python', 'React', 'FAISS', 'RAG', 'LLMs'], link: '#contact', label: 'Consultar el proyecto' },
+  { name: 'ReservNow · Seguridad', type: 'Arquitectura · Testing', icon: GitBranch, description: 'Pruebas de autenticación, aislamiento de entornos y controles de acceso para una aplicación multi-tenant.', contribution: 'Diseño de casos de prueba y revisión de reglas de Firestore, tokens Firebase y flujos de reservas.', stack: ['Node.js', 'Firebase Auth', 'Firestore', 'E2E'], link: 'https://github.com/MMoyano10', label: 'Ver GitHub' },
 ];
 
-const getImage = (id: string) => PlaceHolderImages.find((img) => img.id === id);
-
-export default function ProjectsShowcase() {
-  const jsonLd = useMemo(
-    () =>
-      ({
-        '@context': 'https://schema.org',
-        '@type': 'ItemList',
-        itemListElement: projects.map((p, i) => ({
-          '@type': 'CreativeWork',
-          position: i + 1,
-          name: p.title,
-          headline: p.metric,
-          description: p.description,
-          genre: p.tags?.join(', '),
-        })),
-      } as const),
-    []
-  );
-
-  return (
-    <section id="projects" className="py-16 sm:py-24 bg-card">
-      <div className="container">
-        <div className="text-center mb-12">
-          <div className="mx-auto mb-2 inline-flex items-center gap-1.5 rounded-full border border-primary/50 px-2.5 py-0.5 text-[10px] uppercase tracking-widest text-primary">
-            <Sparkles className="h-3 w-3" />
-            <span>Projects & Achievements</span>
-          </div>
-          <h2 className="font-headline text-3xl md:text-5xl uppercase text-white">
-            De idea a impacto real
-          </h2>
-          <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto">
-            Transformando conceptos en resultados medibles.
-          </p>
-        </div>
-
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {projects.map((project) => {
-            const image = getImage(project.imageId);
-
-            return (
-              <article
-                key={project.title}
-                className="group relative isolate overflow-hidden border border-black/80 bg-black/70 shadow-2xl rounded-none transition duration-300 hover:-translate-y-[2px] hover:rotate-[-0.6deg] hover:shadow-[0_0_22px_rgba(239,68,68,0.18)]"
-              >
-                <div className="absolute left-0 top-0 z-20 flex items-center gap-1.5 p-2.5">
-                  {project.isNew && (
-                    <span className="inline-flex items-center gap-1 bg-yellow-400 px-1.5 py-0.5 text-[10px] font-bold uppercase text-black">
-                      <Rocket className="h-3 w-3" /> Nuevo
-                    </span>
-                  )}
-                  {project.inDevelopment && (
-                    <span className="inline-flex items-center gap-1 bg-blue-400 px-1.5 py-0.5 text-[10px] font-bold uppercase text-black">
-                      En desarrollo
-                    </span>
-                  )}
-                </div>
-
-                {image && (
-                  <Image
-                    src={image.imageUrl}
-                    alt={image.description}
-                    width={800}
-                    height={1000}
-                    data-ai-hint={image.imageHint}
-                    className="h-[340px] w-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-110"
-                    priority={false}
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
-
-                <div className="absolute bottom-0 left-0 right-0 z-10 p-5 text-white">
-                  <header className="mb-1.5">
-                    <h3 className="font-headline text-xl uppercase drop-shadow-sm leading-tight">
-                      {project.title}
-                    </h3>
-                  </header>
-
-                  <div className="mb-2.5 inline-flex items-center gap-1.5 text-primary font-extrabold text-lg">
-                    <ArrowRight className="h-5 w-5" />
-                    <span>{project.metric}</span>
-                  </div>
-
-                  <p className="text-xs text-white/90 opacity-80 transition-opacity duration-300 group-hover:opacity-100 max-w-xl">
-                    {project.description}
-                  </p>
-
-                  {project.tags?.length ? (
-                    <ul className="mt-3 flex flex-wrap gap-1.5">
-                      {project.tags.map((t) => (
-                        <li
-                          key={t}
-                          className="rounded border border-white/20 bg-white/10 px-2 py-0.5 text-[10px] uppercase tracking-widest text-white/90"
-                        >
-                          {t}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-
-                  {project.impact ? (
-                    <p className="mt-2 text-[10px] text-white/70 flex items-center gap-1">
-                      <BadgeCheck className="h-3 w-3" /> {project.impact}
-                    </p>
-                  ) : null}
-                </div>
-              </article>
-            );
-          })}
-        </div>
-
-        <p className="mt-6 text-center text-[10px] text-white/60">
-          *Las métricas mostradas representan resultados obtenidos en contextos reales y/o entornos controlados.
-        </p>
-      </div>
-    </section>
-  );
+export default function Projects() {
+  return <section id="projects" className="bg-[#111215] py-20 sm:py-28"><div className="container max-w-6xl">
+    <div className="mb-12 max-w-3xl"><p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-primary">Trabajo seleccionado</p><h2 className="font-headline text-4xl uppercase text-white md:text-6xl">Ingeniería detrás de los productos</h2><p className="mt-4 text-base leading-relaxed text-white/65">Casos concretos que muestran lo que construyo y mi contribución técnica, sin métricas sin verificar.</p></div>
+    <div className="grid gap-5 md:grid-cols-2">{projects.map((p) => { const Icon = p.icon; return <article key={p.name} className="flex flex-col rounded-2xl border border-white/10 bg-white/[0.035] p-6 transition hover:border-primary/60 sm:p-8">
+      <div className="mb-7 flex items-start justify-between gap-3"><div className="rounded-xl border border-primary/30 bg-primary/10 p-3 text-primary"><Icon size={25} aria-hidden /></div><span className="text-right text-xs uppercase tracking-wider text-white/50">{p.type}</span></div>
+      <h3 className="font-headline text-3xl uppercase text-white">{p.name}</h3><p className="mt-3 text-base leading-relaxed text-white/75">{p.description}</p><p className="mt-4 text-sm leading-relaxed text-white/60"><strong className="text-white">Mi aporte: </strong>{p.contribution}</p>
+      <ul className="mt-6 flex flex-wrap gap-2">{p.stack.map((s) => <li key={s} className="rounded-full border border-white/15 px-3 py-1 text-xs text-white/75">{s}</li>)}</ul>
+      <Link href={p.link} target={p.link.startsWith('https') ? '_blank' : undefined} rel={p.link.startsWith('https') ? 'noopener noreferrer' : undefined} className="mt-8 inline-flex items-center gap-2 self-start text-sm font-semibold text-primary hover:text-white">{p.label}<ArrowUpRight size={16}/></Link>
+    </article>; })}</div>
+  </div></section>;
 }
