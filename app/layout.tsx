@@ -5,7 +5,9 @@ import { LanguageProvider } from '@/context/language-context';
 
 export const metadata: Metadata = {
   title: 'Mathius Moyano | Full-stack Software Engineer',
-  description: 'Portafolio de Mathius Moyano: ingeniería full-stack, .NET, React, microservicios, inteligencia artificial y productos SaaS.',
+  description: 'Mathius Moyano — Full-stack Software Engineer in Quito, Ecuador. .NET microservices, React, PostgreSQL, applied AI and SaaS products. Open to remote roles.',
+  robots: { index: true, follow: true },
+  openGraph: { title: 'Mathius Moyano | Full-stack Software Engineer', description: 'Engineering reliable full-stack systems and AI-powered products.', type: 'website', locale: 'en_US', alternateLocale: ['es_EC'] },
 };
 
 export const viewport = {

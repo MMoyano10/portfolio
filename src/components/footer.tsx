@@ -1,68 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { Github, Twitter, Linkedin, Instagram, Youtube } from 'lucide-react';
-import KickIcon from '../../source/icons/kick-icon';
+import { Github, Linkedin, Mail } from 'lucide-react';
 import { useLanguage, localized } from '@/context/language-context';
-
 
 export default function Footer() {
   const { language } = useLanguage();
-  const year = new Date().getFullYear();
-  return (
-    <footer className="border-t border-border/40 bg-card">
-      <div className="container flex flex-col md:flex-row items-center justify-between py-8">
-        <p className="text-sm text-muted-foreground text-center md:text-left">
-          &copy; {year} Mathius Moyano. {localized(language, 'All rights reserved.', 'Todos los derechos reservados.')}
-        </p>
-        <div className="flex gap-4 mt-4 md:mt-0">
-          <Link
-            href="https://github.com/MMoyano10"
-            className="text-muted-foreground hover:text-[#ADBAC7] transition-colors"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-          >
-            <Github className="h-5 w-5" />
-          </Link>
-          <Link
-            href="https://www.linkedin.com/in/mathius-moyano/"
-            className="text-muted-foreground hover:text-[#0A66C2] transition-colors"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-          >
-            <Linkedin className="h-5 w-5" />
-          </Link>
-          <Link
-            href="https://www.instagram.com/mathiusmoyano/"
-            className="text-muted-foreground hover:text-[#E4405F] transition-colors"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram"
-          >
-            <Instagram className="h-5 w-5" />
-          </Link>
-          <Link
-            href="https://www.youtube.com/@mathiusmoyano"
-            className="text-muted-foreground hover:text-[#FF0000] transition-colors"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="YouTube"
-          >
-            <Youtube className="h-5 w-5" />
-          </Link>
-          <Link
-            href="https://kick.com/mathiusmoyano"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Kick"
-            className="text-muted-foreground hover:text-[#53FC18] transition-colors"
-          >
-            <KickIcon className="h-4 w-5" brand={false} />
-          </Link>
-        </div>
-      </div>
-    </footer>
-  );
+  return <footer className="border-t border-white/10 bg-[#0b0b0e]"><div className="container flex max-w-6xl flex-col items-center justify-between gap-5 py-9 sm:flex-row"><p className="text-sm text-white/60">© {new Date().getFullYear()} Mathius Moyano. {localized(language, 'All rights reserved.', 'Todos los derechos reservados.')}</p><div className="flex items-center gap-6"><Link href="https://github.com/MMoyano10" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="text-white/60 hover:text-white"><Github size={21}/></Link><Link href="https://www.linkedin.com/in/mathius-moyano/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-white/60 hover:text-white"><Linkedin size={21}/></Link><a href="mailto:msmj1077@gmail.com" aria-label="Email" className="text-white/60 hover:text-white"><Mail size={21}/></a></div></div></footer>;
 }

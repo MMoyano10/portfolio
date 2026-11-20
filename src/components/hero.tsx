@@ -1,101 +1,26 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
-import { Button } from '@/components/ui/button';
+
 import Link from 'next/link';
-import backgroundImage from '../../source/images/background.png';
+import { ArrowUpRight, Github, Linkedin, MapPin } from 'lucide-react';
 import { useLanguage, localized } from '@/context/language-context';
 
 export default function Hero() {
   const { language } = useLanguage();
-  const [isLive, setIsLive] = useState(false);
-  const [loadingLive, setLoadingLive] = useState<boolean>(true);
-  const [errorLive, setErrorLive] = useState<string | null>(null);
-  const abortRef = useRef<AbortController | null>(null);
-
-  async function checkLiveOnce(signal?: AbortSignal) {
-    try {
-      setErrorLive(null);
-      const username = process.env.NEXT_PUBLIC_KICK_USERNAME || '';
-      const qs = username ? `?user=${encodeURIComponent(username)}` : '';
-      const res = await fetch(`/api/kick-status${qs}`, { signal, cache: 'no-store' });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = (await res.json()) as { live: boolean };
-      setIsLive(Boolean(data.live));
-    } catch (err: any) {
-      if (err?.name !== 'AbortError') setErrorLive('No se pudo verificar el estado en vivo.');
-    } finally {
-      setLoadingLive(false);
-    }
-  }
-
-  useEffect(() => {
-    abortRef.current?.abort();
-    const controller = new AbortController();
-    abortRef.current = controller;
-
-    checkLiveOnce(controller.signal);
-
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const interval = prefersReduced ? null : setInterval(() => checkLiveOnce(controller.signal), 60000);
-
-    return () => {
-      controller.abort();
-      if (interval) clearInterval(interval);
-    };
-  }, []);
-
-  return (
-    <section
-      id="home"
-      className="relative w-full h-[95vh] flex items-center justify-center text-center overflow-hidden"
-    >
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${backgroundImage.src})` }}
-      />
-      <div className="absolute inset-0 bg-black/50" />
-
-      <div className="relative z-10 container flex flex-col items-center justify-center">
-        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 mb-4">
-          {!loadingLive && isLive && (
-            <div className="relative order-1 sm:order-none" aria-live="polite">
-              <span className="flex items-center bg-primary text-primary-foreground font-bold text-xs sm:text-sm px-3 py-1 rounded-full uppercase tracking-widest">
-                <span className="relative flex h-2.5 w-2.5 mr-2" aria-hidden>
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-foreground opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary-foreground" />
-                </span>
-                {localized(language, 'Live now', 'En vivo ahora')}
-              </span>
-            </div>
-          )}
-
-          <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl tracking-tighter uppercase text-white w-full sm:w-auto">
-            Mathius Moyano
-          </h1>
+  return <section id="home" className="portfolio-hero relative isolate flex min-h-[min(780px,95svh)] items-center overflow-hidden py-24 sm:py-32">
+    <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_72%_42%,rgba(234,49,65,0.16),transparent_47%),linear-gradient(145deg,#121216,#070709)]" />
+    <div className="portfolio-grid absolute inset-0 -z-10 opacity-40" aria-hidden />
+    <div className="container max-w-6xl">
+      <div className="max-w-4xl">
+        <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm text-white/75"><span className="h-2 w-2 rounded-full bg-emerald-400"/>{localized(language, 'Open to remote opportunities', 'Abierto a oportunidades remotas')}<span className="mx-1 text-white/30">·</span><MapPin size={14}/>{localized(language, 'Quito, Ecuador', 'Quito, Ecuador')}</div>
+        <p className="mb-4 text-base font-bold uppercase tracking-[0.24em] text-primary">{localized(language, 'Software engineer & product builder', 'Ingeniero de software y creador de productos')}</p>
+        <h1 className="font-headline text-[clamp(3.8rem,10vw,8.5rem)] uppercase leading-[0.94] tracking-tight text-white">Mathius<br/><span className="text-primary">Moyano.</span></h1>
+        <p className="mt-8 max-w-2xl text-xl leading-relaxed text-white/75 sm:text-2xl">{localized(language, 'I build reliable full-stack systems and AI-powered products with .NET, React and thoughtful engineering.', 'Construyo sistemas full-stack confiables y productos con IA utilizando .NET, React e ingeniería orientada a resultados.')}</p>
+        <div className="mt-9 flex flex-wrap gap-3">
+          <Link href="#projects" className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-bold text-white transition hover:bg-red-500">{localized(language, 'View selected work', 'Ver proyectos')}<ArrowUpRight size={17}/></Link>
+          <Link href="#contact" className="inline-flex min-h-12 items-center gap-2 rounded-lg border border-white/30 bg-white/5 px-6 py-3 text-sm font-bold text-white transition hover:border-white/70">{localized(language, 'Get in touch', 'Contáctame')}</Link>
         </div>
-
-        <p className="font-headline text-lg md:text-2xl lg:text-3xl text-muted-foreground uppercase tracking-widest mb-7">
-          Full-stack Software Engineer · .NET · React · AI
-        </p>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5">
-          <Button
-            asChild
-            size="sm"
-            className="font-bold uppercase tracking-wider text-sm px-5 py-3 rounded-none"
-          >
-            <Link href="#contact">{localized(language, 'Let’s connect', 'Hablemos de oportunidades')}</Link>
-          </Button>
-          <Button
-            asChild
-            variant="outline"
-            size="sm"
-            className="font-bold uppercase tracking-wider text-sm px-5 py-3 rounded-none border-2"
-          >
-            <Link href="#projects">{localized(language, 'Explore projects', 'Ver proyectos')}</Link>
-          </Button>
-        </div>
+        <div className="mt-12 flex flex-wrap items-center gap-6 border-t border-white/15 pt-6 text-sm text-white/60"><span>C# / .NET</span><span>React / TypeScript</span><span>PostgreSQL</span><span>AI / RAG</span><div className="flex items-center gap-4"><a aria-label="GitHub" href="https://github.com/MMoyano10" target="_blank" rel="noopener noreferrer" className="text-white/75 hover:text-white"><Github size={20}/></a><a aria-label="LinkedIn" href="https://www.linkedin.com/in/mathius-moyano/" target="_blank" rel="noopener noreferrer" className="text-white/75 hover:text-white"><Linkedin size={20}/></a></div></div>
       </div>
-    </section>
-  );
+    </div>
+  </section>;
 }

@@ -114,6 +114,7 @@ export default function Contacto() {
             <h3 className="font-headline text-lg uppercase text-white mb-3">{localized(language, 'Let’s talk technology', 'Hablemos de tecnología')}</h3>
             <p className="text-base leading-relaxed text-muted-foreground mb-5">{localized(language, 'I am interested in full-stack engineering, .NET backend, React and applied AI opportunities. I also collaborate on digital product development.', 'Estoy interesado en roles de ingeniería full-stack, backend .NET, React y proyectos de IA aplicada. También puedo colaborar en el desarrollo de productos digitales.')}</p>
             <div className="flex flex-wrap gap-3 mb-7"><Link href="https://github.com/MMoyano10" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-4">GitHub</Link><Link href="https://www.linkedin.com/in/mathius-moyano/" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-4">LinkedIn</Link></div>
+            <a className="inline-flex min-h-11 items-center rounded-lg border border-white/30 px-4 py-2 text-sm font-semibold text-white hover:border-primary" href="mailto:msmj1077@gmail.com">{localized(language, 'Email me directly', 'Escríbeme directamente')}: msmj1077@gmail.com</a>
             {calendlyUrl && <>
             <h3 className="font-headline text-lg uppercase text-white mb-3">{localized(language, 'Or schedule a call', 'O agenda una llamada')}</h3>
             <p className="text-xs text-muted-foreground mb-5">
